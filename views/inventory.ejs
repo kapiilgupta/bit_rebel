@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en"><head><%- include('partials/head') %><link rel="stylesheet" href="/css/dashboard.css" /></head>
+<body>
+<div class="app-layout">
+<%- include('partials/sidebar') %>
+<div class="main-content">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left"><div><div class="topbar-title">Inventory</div><div class="topbar-date" id="todayDate"></div></div></div>
+    <div class="topbar-right">
+      <div class="topbar-search"><i data-lucide="search" style="width:14px;height:14px;color:#94A3B8;flex-shrink:0;"></i><input type="text" placeholder="Search inventory..." id="inv-search" oninput="filterTable('inv-table',this.value)" /></div>
+    </div>
+  </div>
+
+  <div class="dash-content">
+    <div class="page-header">
+      <div class="page-header-left"><h1>Inventory</h1><p>Track stock levels and reorder thresholds</p></div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary" onclick="window.location.reload()"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Refresh</button>
+        <button class="btn btn-primary" onclick="openModal('update-stock-modal')"><i data-lucide="plus" style="width:14px;height:14px;"></i> Update Stock</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-row" id="inv-stats">
+      <div class="stat-mini"><div class="stat-mini-label">Total SKUs</div><div class="stat-mini-value" id="stat-total">—</div></div>
+      <div class="stat-mini"><div class="stat-mini-label">Low Stock</div><div class="stat-mini-value" id="stat-low" style="color:#EF4444;">—</div></div>
+      <div class="stat-mini"><div class="stat-mini-label">OK</div><div class="stat-mini-value" id="stat-ok" style="color:#10B981;">—</div></div>
+      <div class="stat-mini"><div class="stat-mini-label">Total Units</div><div class="stat-mini-value" id="stat-units">—</div></div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-card-header">
+        <div><div class="table-card-title">Stock Levels</div><div class="table-card-sub">Real-time inventory status</div></div>
+        <select class="filter-select" onchange="filterByStatus('inv-table',this.value)">
+          <option value="">All Status</option>
+          <option value="ok">OK</option>
+          <option value="low">Low</option>
+          <option value="short">Short</option>
+        </select>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="data-table" id="inv-table">
+          <thead><tr>
+            <th>Product</th><th>SKU</th><th>Variant</th><th>Stock Qty</th><th>Reorder Level</th><th>Status</th><th></th>
+          </tr></thead>
+          <tbody id="inv-tbody">
+            <tr><td colspan="7" style="text-align:center;color:#94A3B8;padding:40px;">
+              <i data-lucide="loader" style="width:20px;height:20px;margin-bottom:8px;"></i><br>Loading inventory...
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Update Stock Modal -->
+<div class="modal-overlay" id="update-stock-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="stock-modal-title">Update Stock</span>
+      <button class="modal-close" onclick="closeModal('update-stock-modal')"><i data-lucide="x" style="width:14px;height:14px;"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="stock-inv-id" />
+      <input type="hidden" id="stock-product-id" />
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label">Product</label>
+        <select class="form-input" id="stock-product-select">
+          <option value="">Select product...</option>
+        </select>
+      </div>
+      <div class="form-grid-2c" style="gap:16px;">
+        <div class="form-group">
+          <label class="form-label">Stock Quantity</label>
+          <input class="form-input" id="stock-qty" type="number" placeholder="0" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reorder Level</label>
+          <input class="form-input" id="stock-reorder" type="number" placeholder="50" min="0" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('update-stock-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-stock-btn" onclick="saveStock()">
+        <i data-lucide="save" style="width:14px;height:14px;"></i> Save
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="/js/pages.js"></script>
+<script>
+  lucide.createIcons();
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  loadInventory();
+</script>
+</body></html>
