@@ -1,0 +1,42 @@
+<!-- Sidebar — receives `user` and `page` locals from the route -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-brand-icon">
+      <i data-lucide="cpu" style="width:18px;height:18px;stroke:white;stroke-width:2;"></i>
+    </div>
+    <span class="sidebar-brand-name">Factory Brain</span>
+    <span class="sidebar-brand-badge">Beta</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a href="/dashboard"  class="nav-item <%= page==='dashboard'  ? 'active':'' %>"><span class="nav-icon"><i data-lucide="layout-dashboard"></i></span> Dashboard</a>
+    <a href="/products"   class="nav-item <%= page==='products'   ? 'active':'' %>"><span class="nav-icon"><i data-lucide="boxes"></i></span> Products</a>
+    <a href="/forecast"   class="nav-item <%= page==='forecast'   ? 'active':'' %>"><span class="nav-icon"><i data-lucide="trending-up"></i></span> Forecast</a>
+
+    <div class="nav-section-label" style="margin-top:8px;">Planning</div>
+    <a href="/planning"    class="nav-item <%= page==='planning'    ? 'active':'' %>"><span class="nav-icon"><i data-lucide="clipboard-list"></i></span> Planning</a>
+    <a href="/scheduling"  class="nav-item <%= page==='scheduling'  ? 'active':'' %>"><span class="nav-icon"><i data-lucide="calendar-clock"></i></span> Scheduling</a>
+
+    <div class="nav-section-label" style="margin-top:8px;">Operations</div>
+    <a href="/inventory"  class="nav-item <%= page==='inventory'  ? 'active':'' %>"><span class="nav-icon"><i data-lucide="package"></i></span> Inventory</a>
+    <a href="/machines"   class="nav-item <%= page==='machines'   ? 'active':'' %>"><span class="nav-icon"><i data-lucide="cpu"></i></span> Machines</a>
+    <a href="/alerts"     class="nav-item <%= page==='alerts'     ? 'active':'' %>"><span class="nav-icon"><i data-lucide="bell"></i></span> Alerts <span class="nav-badge" id="sidebar-alert-count">3</span></a>
+
+    <div class="nav-section-label" style="margin-top:8px;">System</div>
+    <a href="/settings"   class="nav-item <%= page==='settings'   ? 'active':'' %>"><span class="nav-icon"><i data-lucide="settings"></i></span> Settings</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <div class="user-avatar"><%= (typeof user!=='undefined'&&user.username)?user.username.slice(0,2).toUpperCase():'FB' %></div>
+      <div>
+        <div class="user-name"><%= (typeof user!=='undefined')?user.username:'' %></div>
+        <div class="user-role"><%= (typeof user!=='undefined'&&user.company&&user.company.name)?user.company.name:'Production Manager' %></div>
+      </div>
+      <a href="/logout" class="user-menu-btn" title="Logout">
+        <i data-lucide="log-out" style="width:16px;height:16px;"></i>
+      </a>
+    </div>
+  </div>
+</aside>
