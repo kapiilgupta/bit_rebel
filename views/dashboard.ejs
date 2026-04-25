@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+<body>
+<div class="app-layout">
+  <%- include('partials/sidebar') %>
+
+  <div class="main-content">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <div>
+          <div class="topbar-title">Dashboard</div>
+          <div class="topbar-date" id="todayDate"></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <i data-lucide="search" style="width:14px;height:14px;color:#94A3B8;flex-shrink:0;"></i>
+          <input type="text" placeholder="Search products, machines..." id="dashSearch" />
+        </div>
+        <div class="icon-btn" title="Notifications" id="notifBtn">
+          <i data-lucide="bell"></i>
+          <span class="notif-dot"></span>
+        </div>
+        <div class="icon-btn" title="Refresh" onclick="refreshDash()">
+          <i data-lucide="refresh-cw" id="refreshIcon"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dash-content">
+      <!-- Welcome -->
+      <div class="dash-welcome">
+        <h1><%= greeting %>, <%= user.username %> 👋</h1>
+        <p>Here's your factory overview for today. 3 items need your attention.</p>
+      </div>
+
+      <!-- KPI Row -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon indigo">
+              <i data-lucide="trending-up" style="width:20px;height:20px;color:#4F46E5;stroke-width:2;"></i>
+            </div>
+            <span class="kpi-change up">↑ 12%</span>
+          </div>
+          <div class="kpi-value">2,480</div>
+          <div class="kpi-label">Demand Today</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon green">
+              <i data-lucide="check-circle-2" style="width:20px;height:20px;color:#10B981;stroke-width:2;"></i>
+            </div>
+            <span class="kpi-change up">On track</span>
+          </div>
+          <div class="kpi-value">2,140</div>
+          <div class="kpi-label">Units Planned</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon amber">
+              <i data-lucide="factory" style="width:20px;height:20px;color:#D97706;stroke-width:2;"></i>
+            </div>
+            <span class="kpi-change warn">2 idle</span>
+          </div>
+          <div class="kpi-value">8/10</div>
+          <div class="kpi-label">Machines Active</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon red">
+              <i data-lucide="triangle-alert" style="width:20px;height:20px;color:#EF4444;stroke-width:2;"></i>
+            </div>
+            <span class="kpi-change down">3 new</span>
+          </div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-label">Active Alerts</div>
+        </div>
+      </div>
+
+      <!-- Main grid: Production Table + Alerts -->
+      <div class="dash-grid" style="margin-bottom:20px;">
+        <!-- Production Summary Table -->
+        <div class="sec-card">
+          <div class="sec-card-header">
+            <div>
+              <div class="sec-card-title">Production Summary</div>
+              <div class="sec-card-sub">Demand vs stock vs plan — today</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <select style="font-size:12px;border:1px solid #E2E8F0;border-radius:6px;padding:5px 10px;color:#64748B;background:white;outline:none;font-family:inherit;">
+                <option>Today</option><option>This week</option><option>This month</option>
+              </select>
+              <button class="btn btn-secondary btn-sm" style="display:flex;align-items:center;gap:6px;">
+                <i data-lucide="download" style="width:13px;height:13px;"></i> Export
+              </button>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="prod-table">
+              <thead>
+                <tr>
+                  <th>Product / Variant</th>
+                  <th>Forecast</th>
+                  <th>In Stock</th>
+                  <th>Required</th>
+                  <th>Planned</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="prod-name">Widget A</div><div class="prod-variant">Red — SKU-001</div></td>
+                  <td>480</td><td class="td-danger">120</td><td>360</td><td>360</td>
+                  <td><span class="status-pill shortage"><span class="status-dot-small"></span>Shortage</span></td>
+                </tr>
+                <tr>
+                  <td><div class="prod-name">Widget B</div><div class="prod-variant">Blue — SKU-002</div></td>
+                  <td>320</td><td class="td-success">410</td><td>0</td><td>0</td>
+                  <td><span class="status-pill balanced"><span class="status-dot-small"></span>Balanced</span></td>
+                </tr>
+                <tr>
+                  <td><div class="prod-name">Widget C</div><div class="prod-variant">Standard — SKU-003</div></td>
+                  <td>200</td><td class="td-warning">90</td><td>110</td><td>110</td>
+                  <td><span class="status-pill low"><span class="status-dot-small"></span>Low Stock</span></td>
+                </tr>
+                <tr>
+                  <td><div class="prod-name">Widget D</div><div class="prod-variant">XL — SKU-004</div></td>
+                  <td>150</td><td class="td-success">280</td><td>0</td><td>0</td>
+                  <td><span class="status-pill balanced"><span class="status-dot-small"></span>Balanced</span></td>
+                </tr>
+                <tr>
+                  <td><div class="prod-name">Widget E</div><div class="prod-variant">Compact — SKU-005</div></td>
+                  <td>390</td><td class="td-danger">40</td><td>350</td><td>300</td>
+                  <td><span class="status-pill shortage"><span class="status-dot-small"></span>Shortage</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="sec-card-footer" style="display:flex;justify-content:flex-end;">
+            <a href="#" class="btn btn-ghost btn-sm" style="display:flex;align-items:center;gap:6px;">
+              View full production plan <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Alerts Panel -->
+        <div class="sec-card">
+          <div class="sec-card-header">
+            <div>
+              <div class="sec-card-title">Alerts</div>
+              <div class="sec-card-sub">3 active · prioritized</div>
+            </div>
+            <button class="btn btn-ghost btn-sm">Mark all read</button>
+          </div>
+          <div class="sec-card-body">
+            <div class="alerts-list">
+              <div class="alert-item danger">
+                <i data-lucide="circle-alert" style="width:18px;height:18px;color:#EF4444;flex-shrink:0;margin-top:1px;stroke-width:2;"></i>
+                <div>
+                  <div class="alert-title">Widget A — Critical shortage</div>
+                  <div class="alert-desc">Stock (120) is 75% below today's demand. Machine M-01 allocated but may not cover gap.</div>
+                  <div class="alert-time">Just now</div>
+                </div>
+              </div>
+              <div class="alert-item warning">
+                <i data-lucide="triangle-alert" style="width:18px;height:18px;color:#D97706;flex-shrink:0;margin-top:1px;stroke-width:2;"></i>
+                <div>
+                  <div class="alert-title">Machine M-05 — Scheduled maintenance</div>
+                  <div class="alert-desc">M-05 goes offline 2pm–4pm. 3 jobs need to be rescheduled.</div>
+                  <div class="alert-time">15 min ago</div>
+                </div>
+              </div>
+              <div class="alert-item info">
+                <i data-lucide="trending-up" style="width:18px;height:18px;color:#3B82F6;flex-shrink:0;margin-top:1px;stroke-width:2;"></i>
+                <div>
+                  <div class="alert-title">Demand spike — Widget E</div>
+                  <div class="alert-desc">Forecast shows 28% spike next week. Consider increasing planned qty now.</div>
+                  <div class="alert-time">1 hour ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sec-card-footer">
+            <a href="#" class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;display:flex;align-items:center;gap:6px;">
+              View all alerts <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Machine Schedule Preview -->
+      <div class="sec-card" style="margin-bottom:20px;">
+        <div class="sec-card-header">
+          <div>
+            <div class="sec-card-title">Machine Scheduling</div>
+            <div class="sec-card-sub">Today · Shift A (6:00am – 6:00pm)</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn btn-secondary btn-sm" style="display:flex;align-items:center;gap:5px;">
+              <i data-lucide="chevron-left" style="width:13px;height:13px;"></i> Yesterday
+            </button>
+            <button class="btn btn-secondary btn-sm" style="display:flex;align-items:center;gap:5px;">
+              Tomorrow <i data-lucide="chevron-right" style="width:13px;height:13px;"></i>
+            </button>
+            <a href="#" class="btn btn-primary btn-sm" style="display:flex;align-items:center;gap:5px;">
+              <i data-lucide="calendar-clock" style="width:13px;height:13px;"></i> View Full Schedule
+            </a>
+          </div>
+        </div>
+        <div class="sec-card-body">
+          <div class="machine-sched">
+            <div class="sched-time-header">
+              <div style="width:56px;flex-shrink:0;"></div>
+              <div class="sched-time-label">6am</div>
+              <div class="sched-time-label">9am</div>
+              <div class="sched-time-label">12pm</div>
+              <div class="sched-time-label">3pm</div>
+              <div class="sched-time-label">6pm</div>
+            </div>
+            <div class="sched-row">
+              <span class="sched-machine-label">M-01</span>
+              <div class="sched-track">
+                <div class="sched-block blue" style="width:65%">Widget A · 312u</div>
+                <div class="sched-block idle" style="width:35%">Idle</div>
+              </div>
+            </div>
+            <div class="sched-row">
+              <span class="sched-machine-label">M-02</span>
+              <div class="sched-track">
+                <div class="sched-block gap" style="width:15%"></div>
+                <div class="sched-block teal" style="width:55%">Widget B · 210u</div>
+                <div class="sched-block idle" style="width:30%">Idle</div>
+              </div>
+            </div>
+            <div class="sched-row">
+              <span class="sched-machine-label">M-03</span>
+              <div class="sched-track">
+                <div class="sched-block violet" style="width:80%">Widget C · Priority · 150u</div>
+                <div class="sched-block idle" style="width:20%">Idle</div>
+              </div>
+            </div>
+            <div class="sched-row">
+              <span class="sched-machine-label">M-04</span>
+              <div class="sched-track">
+                <div class="sched-block amber" style="width:40%">Widget D · 100u</div>
+                <div class="sched-block idle" style="width:60%">Idle</div>
+              </div>
+            </div>
+            <div class="sched-row">
+              <span class="sched-machine-label">M-05</span>
+              <div class="sched-track">
+                <div class="sched-block blue" style="width:30%">Widget E</div>
+                <div class="sched-block" style="width:35%;background:#FEF2F2;color:#EF4444;font-size:10px;font-weight:700;">⚠ Maintenance</div>
+                <div class="sched-block idle" style="width:35%">Idle</div>
+              </div>
+            </div>
+          </div>
+          <!-- Legend -->
+          <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;align-items:center;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#64748B;"><span style="width:12px;height:12px;background:#4F46E5;border-radius:3px;display:inline-block;"></span> Widget A</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#64748B;"><span style="width:12px;height:12px;background:#0D9488;border-radius:3px;display:inline-block;"></span> Widget B</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#64748B;"><span style="width:12px;height:12px;background:#7C3AED;border-radius:3px;display:inline-block;"></span> Widget C</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#64748B;"><span style="width:12px;height:12px;background:#D97706;border-radius:3px;display:inline-block;"></span> Widget D</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#64748B;"><span style="width:12px;height:12px;background:#F1F5F9;border-radius:3px;display:inline-block;border:1px solid #E2E8F0;"></span> Idle</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#EF4444;"><span style="width:12px;height:12px;background:#FEF2F2;border-radius:3px;display:inline-block;border:1px solid #FECACA;"></span> Maintenance</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row: Inventory + Traceability -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+        <!-- Inventory Status -->
+        <div class="sec-card">
+          <div class="sec-card-header">
+            <div>
+              <div class="sec-card-title">Inventory Status</div>
+              <div class="sec-card-sub">Variant-level stock health</div>
+            </div>
+            <a href="#" class="btn btn-ghost btn-sm" style="display:flex;align-items:center;gap:5px;">
+              View all <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+            </a>
+          </div>
+          <div class="sec-card-body">
+            <div class="inv-grid">
+              <div class="inv-item">
+                <div class="inv-name">Widget A</div>
+                <div class="inv-variant">Red · SKU-001</div>
+                <div class="inv-bar-track"><div class="inv-bar-fill low" style="width:25%"></div></div>
+                <div class="inv-meta"><span class="inv-qty">120 / 480 units</span><span class="inv-status low">Low</span></div>
+              </div>
+              <div class="inv-item">
+                <div class="inv-name">Widget B</div>
+                <div class="inv-variant">Blue · SKU-002</div>
+                <div class="inv-bar-track"><div class="inv-bar-fill good" style="width:85%"></div></div>
+                <div class="inv-meta"><span class="inv-qty">410 / 480 units</span><span class="inv-status good">Good</span></div>
+              </div>
+              <div class="inv-item">
+                <div class="inv-name">Widget C</div>
+                <div class="inv-variant">Standard · SKU-003</div>
+                <div class="inv-bar-track"><div class="inv-bar-fill medium" style="width:45%"></div></div>
+                <div class="inv-meta"><span class="inv-qty">90 / 200 units</span><span class="inv-status medium">Medium</span></div>
+              </div>
+              <div class="inv-item">
+                <div class="inv-name">Widget E</div>
+                <div class="inv-variant">Compact · SKU-005</div>
+                <div class="inv-bar-track"><div class="inv-bar-fill low" style="width:10%"></div></div>
+                <div class="inv-meta"><span class="inv-qty">40 / 390 units</span><span class="inv-status low">Low</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Traceability -->
+        <div class="sec-card">
+          <div class="sec-card-header">
+            <div>
+              <div class="sec-card-title">Traceability</div>
+              <div class="sec-card-sub">Demand → Plan → Schedule · click to drill down</div>
+            </div>
+            <span class="badge badge-primary" style="display:flex;align-items:center;gap:4px;">
+              <i data-lucide="radio" style="width:10px;height:10px;"></i> Live
+            </span>
+          </div>
+          <div class="sec-card-body">
+            <div style="margin-bottom:20px;">
+              <p style="font-size:13px;color:#64748B;margin-bottom:16px;">Trace Widget A — Red through the entire pipeline:</p>
+              <div class="trace-flow">
+                <div class="trace-node active" onclick="selectTrace(this,'demand')">
+                  <div class="trace-node-icon">
+                    <i data-lucide="radio" style="width:20px;height:20px;color:#4F46E5;stroke-width:2;"></i>
+                  </div>
+                  <div class="trace-node-title">Demand</div>
+                  <div class="trace-node-sub">480 units · Today</div>
+                </div>
+                <div class="trace-arrow">
+                  <i data-lucide="arrow-right" style="width:18px;height:18px;color:#CBD5E1;"></i>
+                </div>
+                <div class="trace-node" onclick="selectTrace(this,'plan')">
+                  <div class="trace-node-icon">
+                    <i data-lucide="clipboard-list" style="width:20px;height:20px;color:#64748B;stroke-width:2;"></i>
+                  </div>
+                  <div class="trace-node-title">Plan</div>
+                  <div class="trace-node-sub">360 required · 360 planned</div>
+                </div>
+                <div class="trace-arrow">
+                  <i data-lucide="arrow-right" style="width:18px;height:18px;color:#CBD5E1;"></i>
+                </div>
+                <div class="trace-node" onclick="selectTrace(this,'schedule')">
+                  <div class="trace-node-icon">
+                    <i data-lucide="factory" style="width:20px;height:20px;color:#64748B;stroke-width:2;"></i>
+                  </div>
+                  <div class="trace-node-title">Schedule</div>
+                  <div class="trace-node-sub">M-01 · 6am–2pm</div>
+                </div>
+              </div>
+            </div>
+            <div id="traceDetail" style="background:#EEF2FF;border-radius:10px;padding:16px;border:1px solid rgba(79,70,229,0.15);">
+              <p style="font-size:13px;font-weight:700;color:#4F46E5;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+                <i data-lucide="radio" style="width:14px;height:14px;"></i> Demand Signal
+              </p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div style="font-size:12px;color:#64748B;">Source: Sales forecast</div>
+                <div style="font-size:12px;color:#64748B;">Updated: 06:00am</div>
+                <div style="font-size:12px;color:#64748B;">Forecast qty: <strong style="color:#0F172A;">480</strong></div>
+                <div style="font-size:12px;color:#64748B;">Confidence: <strong style="color:#10B981;">94%</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end dash-content -->
+  </div><!-- end main-content -->
+</div><!-- end app-layout -->
+
+<script src="/js/dashboard.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
