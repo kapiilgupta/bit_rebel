@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="en"><head><%- include('partials/head') %><link rel="stylesheet" href="/css/dashboard.css" /></head>
+<body>
+<div class="app-layout">
+<%- include('partials/sidebar') %>
+<div class="main-content">
+<div class="topbar"><div class="topbar-left"><div><div class="topbar-title">Production Planning</div></div></div></div>
+<div class="dash-content">
+
+<div class="page-header">
+  <div class="page-header-left"><h1>Production Planning</h1><p>Review, approve and manage production plans</p></div>
+  <div class="page-header-actions">
+    <button class="btn btn-secondary" onclick="loadOrders()"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Refresh</button>
+    <button class="btn btn-primary" id="gen-orders-btn" onclick="generateOrders()"><i data-lucide="zap" style="width:14px;height:14px;"></i> Generate Orders</button>
+  </div>
+</div>
+
+<div class="stat-row">
+  <div class="stat-mini"><div class="stat-mini-label">Total Plans</div><div class="stat-mini-value">12</div><div class="stat-mini-sub" style="color:#64748B;">This week</div></div>
+  <div class="stat-mini"><div class="stat-mini-label">In Progress</div><div class="stat-mini-value">4</div><div class="stat-mini-sub" style="color:#10B981;">On schedule</div></div>
+  <div class="stat-mini"><div class="stat-mini-label">Completed</div><div class="stat-mini-value">7</div><div class="stat-mini-sub" style="color:#64748B;">This week</div></div>
+  <div class="stat-mini"><div class="stat-mini-label">Needs Approval</div><div class="stat-mini-value">1</div><div class="stat-mini-sub" style="color:#EF4444;">Action required</div></div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-search"><i data-lucide="search" style="width:14px;height:14px;color:#94A3B8;flex-shrink:0;"></i><input type="text" placeholder="Search plans…" oninput="filterTable('plan-table',this.value)" /></div>
+  <select class="filter-select" onchange="filterByStatus('plan-table',this.value)"><option value="">All Status</option><option value="planned">Planned</option><option value="in-progress">In Progress</option><option value="completed">Completed</option></select>
+  <select class="filter-select"><option>All Machines</option><option>M-01</option><option>M-02</option><option>M-03</option><option>M-04</option><option>M-05</option></select>
+</div>
+
+<div class="table-card">
+  <div class="table-card-header">
+    <div><div class="table-card-title">Production Plans</div><div class="table-card-sub">Today's + upcoming plans</div></div>
+    <button class="btn btn-secondary" style="font-size:12px;" onclick="approveAll()"><i data-lucide="check-circle-2" style="width:13px;height:13px;"></i> Approve All Pending</button>
+  </div>
+  <table class="data-table" id="orders-table">
+    <thead><tr><th>Order #</th><th>Product</th><th>Variant</th><th>Due Date</th><th>Quantity</th><th>Status</th><th></th></tr></thead>
+    <tbody id="orders-tbody">
+      <tr><td colspan="7" style="text-align:center;padding:40px;color:#94A3B8;">Loading orders...</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Generate Plan Modal -->
+<div class="modal-overlay" id="generate-plan-modal">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Generate Production Plan</span><button class="modal-close" onclick="closeModal('generate-plan-modal')"><i data-lucide="x" style="width:14px;height:14px;"></i></button></div>
+    <div class="modal-body">
+      <div class="form-grid-2c" style="gap:16px;">
+        <div class="form-group"><label class="form-label">Product</label><select class="form-input"><option>Widget A — Red (SKU-001)</option><option>Widget B — Blue (SKU-002)</option><option>Widget C (SKU-003)</option><option>Widget E (SKU-005)</option></select></div>
+        <div class="form-group"><label class="form-label">Machine</label><select class="form-input"><option>M-01</option><option>M-02</option><option>M-03</option><option>M-04</option><option>M-05</option></select></div>
+        <div class="form-group"><label class="form-label">Quantity</label><input class="form-input" type="number" placeholder="360" /></div>
+        <div class="form-group"><label class="form-label">Priority</label><select class="form-input"><option>Normal</option><option>High</option><option>Critical</option></select></div>
+        <div class="form-group"><label class="form-label">Start Time</label><input class="form-input" type="time" value="06:00" /></div>
+        <div class="form-group"><label class="form-label">End Time</label><input class="form-input" type="time" value="14:00" /></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('generate-plan-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePlan()">Create Plan</button>
+    </div>
+  </div>
+</div>
+
+</div></div></div></div>
+<div id="toast-container"></div>
+<script src="/js/pages.js"></script>
+<script>
+lucide.createIcons();
+loadOrders();
+</script>
+</body></html>
