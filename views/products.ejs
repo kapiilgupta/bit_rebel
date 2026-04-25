@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en"><head><%- include('partials/head') %><link rel="stylesheet" href="/css/dashboard.css" /></head>
+<body>
+<div class="app-layout">
+<%- include('partials/sidebar') %>
+<div class="main-content">
+<div class="topbar"><div class="topbar-left"><div><div class="topbar-title">Products</div></div></div></div>
+<div class="dash-content">
+
+<div class="page-header">
+  <div class="page-header-left">
+    <h1>Products</h1>
+    <p>Manage product catalog and SKU variants</p>
+  </div>
+  <div class="page-header-actions">
+    <button class="btn btn-secondary" onclick="exportTable('products-table','products')"><i data-lucide="download" style="width:14px;height:14px;"></i> Export</button>
+    <button class="btn btn-primary" onclick="openModal('add-product-modal')"><i data-lucide="plus" style="width:14px;height:14px;"></i> Add Product</button>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stat-row">
+  <div class="stat-mini"><div class="stat-mini-label">Total SKUs</div><div class="stat-mini-value">24</div><div class="stat-mini-sub" style="color:#10B981;">↑ 3 added this month</div></div>
+  <div class="stat-mini"><div class="stat-mini-label">Active Products</div><div class="stat-mini-value">18</div><div class="stat-mini-sub" style="color:#64748B;">6 discontinued</div></div>
+  <div class="stat-mini"><div class="stat-mini-label">Avg Daily Target</div><div class="stat-mini-value">312</div><div class="stat-mini-sub" style="color:#64748B;">units / product</div></div>
+  <div class="stat-mini"><div class="stat-mini-label">Categories</div><div class="stat-mini-value">5</div><div class="stat-mini-sub" style="color:#64748B;">across product lines</div></div>
+</div>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+  <div class="filter-search"><i data-lucide="search" style="width:14px;height:14px;color:#94A3B8;flex-shrink:0;"></i><input id="products-search" type="text" placeholder="Search products or SKU..." oninput="filterTable('products-table',this.value)" /></div>
+  <select class="filter-select" onchange="filterByStatus('products-table',this.value)">
+    <option value="">All Status</option>
+    <option value="active">Active</option>
+    <option value="discontinued">Discontinued</option>
+    <option value="draft">Draft</option>
+  </select>
+  <select class="filter-select">
+    <option value="">All Categories</option>
+    <option>Widgets</option><option>Components</option><option>Assemblies</option>
+  </select>
+</div>
+
+<div class="table-card">
+  <div class="table-card-header">
+    <div><div class="table-card-title">Product Catalog</div><div class="table-card-sub">24 SKUs across 5 categories</div></div>
+  </div>
+  <table class="data-table" id="products-table">
+    <thead><tr>
+      <th>Product / Variant</th><th>SKU</th><th>Category</th><th>Daily Target</th><th>Unit Cost</th><th>Lead Time</th><th>Status</th><th></th>
+    </tr></thead>
+    <tbody id="products-tbody">
+      <tr data-status="active"><td><div class="td-primary">Widget A</div><div class="td-secondary">Red · Standard size</div></td><td class="td-secondary">SKU-001</td><td>Widgets</td><td class="td-number">480</td><td class="td-secondary">₹120</td><td class="td-secondary">2 days</td><td><span class="pill balanced"><span class="pill-dot"></span>Active</span></td><td><div class="row-actions"><button class="row-action-btn" title="Edit" onclick="editProduct('Widget A','SKU-001',480)"><i data-lucide="pencil" style="width:13px;height:13px;"></i></button><button class="row-action-btn danger" title="Delete" onclick="deleteRow(this)"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button></div></td></tr>
+      <tr data-status="active"><td><div class="td-primary">Widget B</div><div class="td-secondary">Blue · Standard size</div></td><td class="td-secondary">SKU-002</td><td>Widgets</td><td class="td-number">320</td><td class="td-secondary">₹95</td><td class="td-secondary">2 days</td><td><span class="pill balanced"><span class="pill-dot"></span>Active</span></td><td><div class="row-actions"><button class="row-action-btn" onclick="editProduct('Widget B','SKU-002',320)"><i data-lucide="pencil" style="width:13px;height:13px;"></i></button><button class="row-action-btn danger" onclick="deleteRow(this)"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button></div></td></tr>
+      <tr data-status="active"><td><div class="td-primary">Widget C</div><div class="td-secondary">Standard · Compact</div></td><td class="td-secondary">SKU-003</td><td>Widgets</td><td class="td-number">200</td><td class="td-secondary">₹75</td><td class="td-secondary">1 day</td><td><span class="pill balanced"><span class="pill-dot"></span>Active</span></td><td><div class="row-actions"><button class="row-action-btn" onclick="editProduct('Widget C','SKU-003',200)"><i data-lucide="pencil" style="width:13px;height:13px;"></i></button><button class="row-action-btn danger" onclick="deleteRow(this)"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button></div></td></tr>
+      <tr data-status="active"><td><div class="td-primary">Widget D</div><div class="td-secondary">XL · Heavy duty</div></td><td class="td-secondary">SKU-004</td><td>Components</td><td class="td-number">150</td><td class="td-secondary">₹210</td><td class="td-secondary">3 days</td><td><span class="pill balanced"><span class="pill-dot"></span>Active</span></td><td><div class="row-actions"><button class="row-action-btn" onclick="editProduct('Widget D','SKU-004',150)"><i data-lucide="pencil" style="width:13px;height:13px;"></i></button><button class="row-action-btn danger" onclick="deleteRow(this)"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button></div></td></tr>
+      <tr data-status="active"><td><div class="td-primary">Widget E</div><div class="td-secondary">Compact · Lightweight</div></td><td class="td-secondary">SKU-005</td><td>Widgets</td><td class="td-number">390</td><td class="td-secondary">₹88</td><td class="td-secondary">2 days</td><td><span class="pill balanced"><span class="pill-dot"></span>Active</span></td><td><div class="row-actions"><button class="row-action-btn" onclick="editProduct('Widget E','SKU-005',390)"><i data-lucide="pencil" style="width:13px;height:13px;"></i></button><button class="row-action-btn danger" onclick="deleteRow(this)"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button></div></td></tr>
+      <tr data-status="active"><td><div class="td-primary">Assembly X1</div><div class="td-secondary">Premium · Full kit</div></td><td class="td-secondary">ASM-001</td><td>Assemblies</td><td class="td-number">80</td><td class="td-secondary">₹450</td><td class="td-secondary">5 days</td><td><span class="pill balanced"><span class="pill-dot"></span>Active</span></td><td><div class="row-actions"><button class="row-action-btn" onclick="editProduct('Assembly X1','ASM-001',80)"><i data-lucide="pencil" style="width:13px;height:13px;"></i></button><button class="row-action-btn danger" onclick="deleteRow(this)"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button></div></td></tr>
+      <tr data-status="discontinued"><td><div class="td-primary">Widget F</div><div class="td-secondary">Green · Old model</div></td><td class="td-secondary">SKU-006</td><td>Widgets</td><td class="td-number">0</td><td class="td-secondary">₹65</td><td class="td-secondary">—</td><td><span class="pill completed"><span class="pill-dot"></span>Discontinued</span></td><td><div class="row-actions"><button class="row-action-btn" onclick="editProduct('Widget F','SKU-006',0)"><i data-lucide="pencil" style="width:13px;height:13px;"></i></button><button class="row-action-btn danger" onclick="deleteRow(this)"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button></div></td></tr>
+      <tr data-status="draft"><td><div class="td-primary">Component Y2</div><div class="td-secondary">Draft · Pending approval</div></td><td class="td-secondary">CMP-002</td><td>Components</td><td class="td-number">—</td><td class="td-secondary">₹180</td><td class="td-secondary">4 days</td><td><span class="pill planned"><span class="pill-dot"></span>Draft</span></td><td><div class="row-actions"><button class="row-action-btn" onclick="editProduct('Component Y2','CMP-002',0)"><i data-lucide="pencil" style="width:13px;height:13px;"></i></button><button class="row-action-btn danger" onclick="deleteRow(this)"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button></div></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add Product Modal -->
+<div class="modal-overlay" id="add-product-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add New Product</span>
+      <button class="modal-close" onclick="closeModal('add-product-modal')"><i data-lucide="x" style="width:14px;height:14px;"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid-2c" style="gap:16px;">
+        <div class="form-group"><label class="form-label">Product Name</label><input class="form-input" id="new-name" type="text" placeholder="Widget Z" /></div>
+        <div class="form-group"><label class="form-label">SKU Code</label><input class="form-input" id="new-sku" type="text" placeholder="SKU-XXX" /></div>
+        <div class="form-group"><label class="form-label">Category</label><select class="form-input" id="new-cat"><option>Widgets</option><option>Components</option><option>Assemblies</option></select></div>
+        <div class="form-group"><label class="form-label">Daily Target (units)</label><input class="form-input" id="new-target" type="number" placeholder="100" /></div>
+        <div class="form-group"><label class="form-label">Unit Cost (₹)</label><input class="form-input" id="new-cost" type="number" placeholder="150" /></div>
+        <div class="form-group"><label class="form-label">Lead Time (days)</label><input class="form-input" id="new-lead" type="number" placeholder="2" /></div>
+      </div>
+      <div class="form-group" style="margin-top:8px;"><label class="form-label">Variant Description</label><input class="form-input" id="new-variant" type="text" placeholder="e.g. Red · Standard size" /></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('add-product-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addProduct()">Add Product</button>
+    </div>
+  </div>
+</div>
+</div></div></div></div>
+<div id="toast-container"></div>
+<script src="/js/pages.js"></script>
+<script>
+  lucide.createIcons();
+  loadProducts();
+</script>
+</body></html>
