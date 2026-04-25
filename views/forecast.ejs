@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="en"><head><%- include('partials/head') %><link rel="stylesheet" href="/css/dashboard.css" /></head>
+<body>
+<div class="app-layout">
+<%- include('partials/sidebar') %>
+<div class="main-content">
+<div class="topbar"><div class="topbar-left"><div><div class="topbar-title">Demand Forecast</div></div></div></div>
+<div class="dash-content">
+
+<div class="page-header">
+  <div class="page-header-left">
+    <h1>Demand Forecast</h1>
+    <p>AI-powered demand predictions for the next 14 days</p>
+  </div>
+  <div class="page-header-actions">
+    <select class="filter-select" id="forecast-range"><option value="7">Next 7 days</option><option value="14" selected>Next 14 days</option></select>
+    <button class="btn btn-secondary" onclick="exportTable('forecast-table','forecast')"><i data-lucide="download" style="width:14px;height:14px;"></i> Export</button>
+    <button class="btn btn-primary" id="gen-forecast-btn" onclick="generateAIForecast()"><i data-lucide="zap" style="width:14px;height:14px;"></i> Generate AI Forecast</button>
+  </div>
+</div>
+
+<div class="stat-row">
+  <div class="stat-mini"><div class="stat-mini-label">7-Day Total</div><div class="stat-mini-value">17,360</div><div class="stat-mini-sub" style="color:#10B981;">↑ 8.2% vs last week</div></div>
+  <div class="stat-mini"><div class="stat-mini-label">Accuracy</div><div class="stat-mini-value">94.3%</div><div class="stat-mini-sub" style="color:#10B981;">Last 30 days</div></div>
+  <div class="stat-mini"><div class="stat-mini-label">Peak Day</div><div class="stat-mini-value">Friday</div><div class="stat-mini-sub" style="color:#64748B;">2,820 units</div></div>
+  <div class="stat-mini"><div class="stat-mini-label">Variance</div><div class="stat-mini-value">±12%</div><div class="stat-mini-sub" style="color:#D97706;">Moderate</div></div>
+</div>
+
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:20px;">
+  <div class="chart-card">
+    <div class="chart-card-header">
+      <div><div class="chart-card-title">Demand Forecast — Units / Day</div><div class="chart-card-sub">AI predicted vs actual demand</div></div>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-secondary" style="font-size:11px;padding:5px 10px;" onclick="setChartType('bar')">Bar</button>
+        <button class="btn btn-secondary" style="font-size:11px;padding:5px 10px;" onclick="setChartType('line')">Line</button>
+      </div>
+    </div>
+    <canvas id="demandChart" height="110"></canvas>
+    <div class="chart-legend">
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#4F46E5;"></div>Predicted</div>
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#10B981;"></div>Actual</div>
+    </div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-card-header"><div><div class="chart-card-title">Product Mix</div><div class="chart-card-sub">Demand share by product</div></div></div>
+    <canvas id="mixChart" height="175"></canvas>
+  </div>
+</div>
+
+<div class="table-card">
+  <div class="table-card-header">
+    <div><div class="table-card-title">Product-Level Forecast</div><div class="table-card-sub">Next 7 days demand by SKU</div></div>
+    <div class="filter-search" style="max-width:220px;"><i data-lucide="search" style="width:14px;height:14px;color:#94A3B8;flex-shrink:0;"></i><input type="text" placeholder="Search…" oninput="filterTable('forecast-table',this.value)" /></div>
+  </div>
+  <table class="data-table" id="forecast-table">
+    <thead><tr><th>Product</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th>Total</th><th>Trend</th></tr></thead>
+    <tbody>
+      <tr><td><div class="td-primary">Widget A</div><div class="td-secondary">SKU-001</div></td><td>480</td><td>510</td><td>495</td><td>520</td><td>560</td><td>380</td><td>290</td><td class="td-primary td-number">3,235</td><td><span class="pill balanced">↑ +8%</span></td></tr>
+      <tr><td><div class="td-primary">Widget B</div><div class="td-secondary">SKU-002</div></td><td>320</td><td>310</td><td>330</td><td>315</td><td>340</td><td>200</td><td>180</td><td class="td-primary td-number">1,995</td><td><span class="pill low">↑ +2%</span></td></tr>
+      <tr><td><div class="td-primary">Widget C</div><div class="td-secondary">SKU-003</div></td><td>200</td><td>195</td><td>210</td><td>205</td><td>220</td><td>140</td><td>110</td><td class="td-primary td-number">1,280</td><td><span class="pill balanced">↑ +5%</span></td></tr>
+      <tr><td><div class="td-primary">Widget D</div><div class="td-secondary">SKU-004</div></td><td>150</td><td>148</td><td>155</td><td>152</td><td>160</td><td>90</td><td>70</td><td class="td-primary td-number">925</td><td><span class="pill completed">→ Stable</span></td></tr>
+      <tr><td><div class="td-primary">Widget E</div><div class="td-secondary">SKU-005</div></td><td>390</td><td>420</td><td>410</td><td>440</td><td>500</td><td>280</td><td>210</td><td class="td-primary td-number">2,650</td><td><span class="pill shortage">↑ +28%</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div></div></div></div>
+<div id="toast-container"></div>
+<script src="/js/pages.js"></script>
+<script>
+lucide.createIcons();
+const LABELS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const PREDICTED=[2480,2540,2600,2632,2820,1890,1860];
+const ACTUAL=[2480,2540,null,null,null,null,null];
+let demandChart;
+function buildCharts(){
+  demandChart=new Chart(document.getElementById('demandChart'),{type:'bar',data:{labels:LABELS,datasets:[{label:'Predicted',data:PREDICTED,backgroundColor:'rgba(79,70,229,0.8)',borderRadius:6},{label:'Actual',data:ACTUAL,backgroundColor:'rgba(16,185,129,0.85)',borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,grid:{color:'#F1F5F9'}},x:{grid:{display:false}}}}});
+  new Chart(document.getElementById('mixChart'),{type:'doughnut',data:{labels:['Widget A','Widget B','Widget C','Widget D','Widget E'],datasets:[{data:[3235,1995,1280,925,2650],backgroundColor:['#4F46E5','#0D9488','#7C3AED','#D97706','#E11D48'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,cutout:'65%',plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}}}}});
+}
+function setChartType(t){demandChart.config.type=t;demandChart.update();showToast('Switched to '+t+' view','info');}
+function refreshForecast(){const i=document.getElementById('forecast-refresh-icon');i.style.animation='spin 0.7s linear';setTimeout(()=>{i.style.animation='';showToast('Forecast refreshed','success');},750);}
+buildCharts();
+</script>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+</body></html>
