@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en"><head><%- include('partials/head') %><link rel="stylesheet" href="/css/dashboard.css" /></head>
+<body>
+<div class="app-layout">
+<%- include('partials/sidebar') %>
+<div class="main-content">
+
+  <div class="topbar">
+    <div class="topbar-left"><div><div class="topbar-title">Machines</div><div class="topbar-date" id="todayDate"></div></div></div>
+    <div class="topbar-right">
+      <div class="topbar-search"><i data-lucide="search" style="width:14px;height:14px;color:#94A3B8;flex-shrink:0;"></i><input type="text" placeholder="Search machines..." id="mach-search" oninput="filterTable('mach-table',this.value)" /></div>
+    </div>
+  </div>
+
+  <div class="dash-content">
+    <div class="page-header">
+      <div class="page-header-left"><h1>Machines</h1><p>Manage machine capacity and operational status</p></div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary" onclick="loadMachines()"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Refresh</button>
+        <button class="btn btn-primary" onclick="openAddMachineModal()"><i data-lucide="plus" style="width:14px;height:14px;"></i> Add Machine</button>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-mini"><div class="stat-mini-label">Total Machines</div><div class="stat-mini-value" id="mach-total">—</div></div>
+      <div class="stat-mini"><div class="stat-mini-label">Operational</div><div class="stat-mini-value" id="mach-operational" style="color:#10B981;">—</div></div>
+      <div class="stat-mini"><div class="stat-mini-label">Idle</div><div class="stat-mini-value" id="mach-idle" style="color:#D97706;">—</div></div>
+      <div class="stat-mini"><div class="stat-mini-label">Avg Utilization</div><div class="stat-mini-value" id="mach-util">—</div></div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-card-header">
+        <div><div class="table-card-title">Machine Fleet</div><div class="table-card-sub">Daily utilization based on today's schedule</div></div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="data-table" id="mach-table">
+          <thead><tr>
+            <th>Machine</th><th>Type</th><th>Shift (min)</th><th>Location</th><th>Operational</th><th>Sched. Mins</th><th>Utilization</th><th></th>
+          </tr></thead>
+          <tbody id="mach-tbody">
+            <tr><td colspan="8" style="text-align:center;color:#94A3B8;padding:40px;">
+              <i data-lucide="loader" style="width:20px;height:20px;margin-bottom:8px;"></i><br>Loading machines...
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Add / Edit Machine Modal -->
+<div class="modal-overlay" id="machine-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="machine-modal-title">Add Machine</span>
+      <button class="modal-close" onclick="closeModal('machine-modal')"><i data-lucide="x" style="width:14px;height:14px;"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="machine-edit-id" />
+      <div class="form-grid-2c" style="gap:16px;">
+        <div class="form-group"><label class="form-label">Machine Name *</label><input class="form-input" id="machine-name" type="text" placeholder="e.g. M-01" /></div>
+        <div class="form-group"><label class="form-label">Type</label><input class="form-input" id="machine-type" type="text" placeholder="e.g. CNC, Assembly" /></div>
+        <div class="form-group"><label class="form-label">Shift Minutes</label><input class="form-input" id="machine-shift" type="number" placeholder="480" min="60" max="1440" /></div>
+        <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="machine-location" type="text" placeholder="e.g. Floor A" /></div>
+      </div>
+      <div class="form-group" style="margin-top:12px;">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+          <input type="checkbox" id="machine-operational" checked style="width:16px;height:16px;accent-color:#4F46E5;" />
+          <span class="form-label" style="margin:0;">Operational</span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('machine-modal')">Cancel</button>
+      <button class="btn btn-primary" id="machine-save-btn" onclick="saveMachine()">
+        <i data-lucide="save" style="width:14px;height:14px;"></i> Save Machine
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="/js/pages.js"></script>
+<script>
+  lucide.createIcons();
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  loadMachines();
+</script>
+</body></html>
