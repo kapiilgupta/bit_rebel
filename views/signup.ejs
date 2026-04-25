@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/auth.css" />
+</head>
+<body>
+<div class="auth-page">
+  <a href="/auth" class="auth-back-link" id="signup-back">
+    <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back
+  </a>
+
+  <div class="signup-card">
+    <!-- Header with progress -->
+    <div class="signup-header">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill" style="width:33%"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;margin-bottom:20px;">
+        <div class="step-indicator-item">
+          <div class="step-dot active" id="sd1">1</div>
+          <div class="step-dot-label">Verify</div>
+        </div>
+        <div class="step-connector-line" id="sc1"></div>
+        <div class="step-indicator-item">
+          <div class="step-dot" id="sd2">2</div>
+          <div class="step-dot-label">Credentials</div>
+        </div>
+        <div class="step-connector-line" id="sc2"></div>
+        <div class="step-indicator-item">
+          <div class="step-dot" id="sd3">3</div>
+          <div class="step-dot-label">Company</div>
+        </div>
+      </div>
+      <div id="stepTitle">
+        <div class="signup-step-title" id="stepHeading">Verify your email</div>
+        <div class="signup-step-sub" id="stepSub">We'll send a one-time code to confirm your address</div>
+      </div>
+    </div>
+
+    <!-- Step 1: Email + OTP -->
+    <div class="signup-body" id="step1">
+      <div class="form-group" style="margin-bottom:20px;">
+        <label class="form-label" for="signup-email">Work email address</label>
+        <div style="position:relative;">
+          <i data-lucide="mail" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:#94A3B8;pointer-events:none;"></i>
+          <input class="form-input" type="email" id="signup-email" placeholder="you@company.com" autocomplete="email" style="padding-left:36px;" />
+        </div>
+      </div>
+      <div id="otpSection" style="display:none;">
+        <p class="email-display">Code sent to <strong id="emailDisplay"></strong></p>
+        <div class="otp-row">
+          <input class="otp-input" type="text" maxlength="1" id="otp1" />
+          <input class="otp-input" type="text" maxlength="1" id="otp2" />
+          <input class="otp-input" type="text" maxlength="1" id="otp3" />
+          <input class="otp-input" type="text" maxlength="1" id="otp4" />
+          <input class="otp-input" type="text" maxlength="1" id="otp5" />
+          <input class="otp-input" type="text" maxlength="1" id="otp6" />
+        </div>
+        <p class="otp-resend">Didn't get it? <button onclick="resendOTP()" id="resendBtn">Resend code</button> <span class="otp-timer" id="otpTimer"></span></p>
+      </div>
+      <div id="sendOtpSection">
+        <button class="btn btn-primary w-full" onclick="sendOTP()" id="sendOtpBtn" style="width:100%;justify-content:center;display:flex;align-items:center;gap:8px;">
+          <i data-lucide="send" style="width:15px;height:15px;"></i>
+          Send verification code
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Credentials -->
+    <div class="signup-body" id="step2" style="display:none;">
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label" for="signup-username">Username</label>
+        <div style="position:relative;">
+          <i data-lucide="at-sign" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:#94A3B8;pointer-events:none;"></i>
+          <input class="form-input" type="text" id="signup-username" placeholder="factorymanager_2026" autocomplete="username" style="padding-left:36px;" />
+        </div>
+        <span class="form-helper">Only letters, numbers, and underscores.</span>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label" for="signup-password">Password</label>
+        <div class="password-wrapper">
+          <input class="form-input" type="password" id="signup-password" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkStrength(this.value)" />
+          <button class="password-toggle" onclick="togglePwd('signup-password',this)" type="button">
+            <i data-lucide="eye" style="width:15px;height:15px;" id="eye-signup-password"></i>
+          </button>
+        </div>
+        <div class="password-strength">
+          <div class="strength-bar">
+            <div class="strength-seg" id="str1"></div>
+            <div class="strength-seg" id="str2"></div>
+            <div class="strength-seg" id="str3"></div>
+            <div class="strength-seg" id="str4"></div>
+          </div>
+          <span class="strength-label" id="strengthLabel">Enter a password</span>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label" for="signup-confirm">Confirm password</label>
+        <div class="password-wrapper">
+          <input class="form-input" type="password" id="signup-confirm" placeholder="Repeat your password" autocomplete="new-password" />
+          <button class="password-toggle" onclick="togglePwd('signup-confirm',this)" type="button">
+            <i data-lucide="eye" style="width:15px;height:15px;" id="eye-signup-confirm"></i>
+          </button>
+        </div>
+      </div>
+      <label class="terms-check">
+        <input type="checkbox" id="terms-agree" />
+        <span>I agree to Factory Brain's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+      </label>
+    </div>
+
+    <!-- Step 3: Company Details -->
+    <div class="signup-body" id="step3" style="display:none;">
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label" for="company-name">Company name</label>
+        <div style="position:relative;">
+          <i data-lucide="building-2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:#94A3B8;pointer-events:none;"></i>
+          <input class="form-input" type="text" id="company-name" placeholder="Acme Manufacturing Co." style="padding-left:36px;" />
+        </div>
+      </div>
+      <div class="form-grid-2" style="margin-bottom:16px;">
+        <div class="form-group">
+          <label class="form-label" for="industry">Industry</label>
+          <select class="form-select" id="industry">
+            <option value="">Select industry</option>
+            <option>Automotive</option>
+            <option>Electronics</option>
+            <option>Textile &amp; Apparel</option>
+            <option>Food &amp; Beverage</option>
+            <option>Pharmaceuticals</option>
+            <option>Plastics &amp; Rubber</option>
+            <option>Metal Fabrication</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="num-machines">Number of machines</label>
+          <select class="form-select" id="num-machines">
+            <option value="">Select range</option>
+            <option>1–10</option>
+            <option>11–50</option>
+            <option>51–200</option>
+            <option>200+</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label" for="prod-type">Production type</label>
+        <select class="form-select" id="prod-type">
+          <option value="">Select type</option>
+          <option>Discrete manufacturing (batch)</option>
+          <option>Continuous process</option>
+          <option>Make-to-order</option>
+          <option>Make-to-stock</option>
+          <option>Engineer-to-order</option>
+        </select>
+      </div>
+      <div style="background:#EEF2FF;border-radius:8px;padding:14px;border:1px solid rgba(79,70,229,0.15);display:flex;gap:10px;align-items:flex-start;">
+        <i data-lucide="sparkles" style="width:16px;height:16px;color:#4F46E5;flex-shrink:0;margin-top:1px;"></i>
+        <div>
+          <p style="font-size:13px;color:#4F46E5;font-weight:600;margin-bottom:4px;">You're almost in!</p>
+          <p style="font-size:12px;color:#6366F1;">Factory Brain will configure your workspace based on these details.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer nav -->
+    <div class="signup-footer">
+      <button class="btn btn-secondary" id="backBtn" onclick="prevStep()" style="display:none;align-items:center;gap:6px;">
+        <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back
+      </button>
+      <div style="margin-left:auto;">
+        <button class="btn btn-primary" id="nextBtn" onclick="nextStep()" style="display:flex;align-items:center;gap:6px;">
+          Continue <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/js/auth.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
