@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/landing.css" />
+</head>
+<body>
+
+<%- include('partials/navbar') %>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content animate-fadeInUp">
+      <div class="hero-badge">
+        <i data-lucide="zap" style="width:13px;height:13px;"></i>
+        AI-Powered Production Intelligence
+      </div>
+      <h1 class="hero-headline">
+        Production planning.<br><span>Done for you.</span>
+      </h1>
+      <p class="hero-sub">
+        A centrally-focused demand, plan production, and schedule machine workflow without manual effort. Factory Brain thinks so you don't have to.
+      </p>
+      <div class="hero-cta">
+        <a href="/auth" class="btn btn-primary btn-lg" style="display:flex;align-items:center;gap:8px;">
+          Get Started Free <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
+        </a>
+        <a href="#preview" class="btn btn-secondary btn-lg" style="display:flex;align-items:center;gap:8px;">
+          <i data-lucide="play-circle" style="width:16px;height:16px;"></i> See it in action
+        </a>
+      </div>
+      <div class="hero-social-proof">
+        <div class="hero-avatars">
+          <div class="av av1">RK</div>
+          <div class="av av2">SJ</div>
+          <div class="av av3">PM</div>
+          <div class="av av4">TA</div>
+        </div>
+        <p class="proof-text"><strong>200+ factories</strong> automate planning daily</p>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-dashboard-preview">
+        <div class="prev-topbar">
+          <div class="pdot r"></div><div class="pdot y"></div><div class="pdot g"></div>
+          <div class="prev-url">app.factorybrain.io/dashboard</div>
+        </div>
+        <div class="prev-body">
+          <div class="prev-stats">
+            <div class="pstat"><div class="pl">Demand Today</div><div class="pv">2,480</div><div class="ps">↑ 12% vs plan</div></div>
+            <div class="pstat"><div class="pl">Planned Units</div><div class="pv">2,140</div><div class="ps">↑ On track</div></div>
+            <div class="pstat"><div class="pl">Machines Active</div><div class="pv">8/10</div><div class="ps" style="color:#F59E0B;">⚠ 2 idle</div></div>
+          </div>
+          <div class="prev-trow hdr"><span>Product</span><span>Forecast</span><span>Stock</span><span>Status</span></div>
+          <div class="prev-trow"><span>Widget A</span><span>480</span><span>120</span><span class="danger">SHORT</span></div>
+          <div class="prev-trow"><span>Widget B</span><span>320</span><span>410</span><span class="success">OK</span></div>
+          <div class="prev-trow"><span>Widget C</span><span>200</span><span>180</span><span style="color:#D97706;font-weight:700;">LOW</span></div>
+          <div class="prev-timeline">
+            <div class="pt-hdr">Machine Schedule — Today</div>
+            <div class="pt-row"><span class="pt-lbl">M-01</span><div class="pt-track"><div class="pt-bar a" style="width:65%">Widget A</div></div></div>
+            <div class="pt-row"><span class="pt-lbl">M-02</span><div class="pt-track"><div class="pt-bar b" style="width:45%">Widget B</div></div></div>
+            <div class="pt-row"><span class="pt-lbl">M-03</span><div class="pt-track"><div class="pt-bar c" style="width:80%">Widget C</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM vs SOLUTION -->
+<div class="ps-wrap">
+  <div class="ps-inner">
+    <div>
+      <div class="ps-label bad">
+        <i data-lucide="x-circle" style="width:14px;height:14px;"></i> The Old Way
+      </div>
+      <h2 class="ps-title">Manual planning creates chaos</h2>
+      <ul class="ps-list">
+        <li class="ps-item">
+          <i data-lucide="table-2" class="ps-ico" style="width:18px;height:18px;color:#EF4444;flex-shrink:0;margin-top:2px;"></i>
+          Spreadsheets that go out of date immediately
+        </li>
+        <li class="ps-item">
+          <i data-lucide="refresh-cw" class="ps-ico" style="width:18px;height:18px;color:#EF4444;flex-shrink:0;margin-top:2px;"></i>
+          Hours wasted re-planning when demand shifts
+        </li>
+        <li class="ps-item">
+          <i data-lucide="package-minus" class="ps-ico" style="width:18px;height:18px;color:#EF4444;flex-shrink:0;margin-top:2px;"></i>
+          Stockouts and overproduction happening constantly
+        </li>
+        <li class="ps-item">
+          <i data-lucide="eye-off" class="ps-ico" style="width:18px;height:18px;color:#EF4444;flex-shrink:0;margin-top:2px;"></i>
+          No visibility into machine utilization or bottlenecks
+        </li>
+      </ul>
+    </div>
+    <div>
+      <div class="ps-label good">
+        <i data-lucide="check-circle-2" style="width:14px;height:14px;"></i> The Factory Brain Way
+      </div>
+      <h2 class="ps-title">Automated intelligence, always on</h2>
+      <ul class="ps-list">
+        <li class="ps-item">
+          <i data-lucide="zap" class="ps-ico" style="width:18px;height:18px;color:#10B981;flex-shrink:0;margin-top:2px;"></i>
+          AI reads demand signals and plans automatically
+        </li>
+        <li class="ps-item">
+          <i data-lucide="target" class="ps-ico" style="width:18px;height:18px;color:#10B981;flex-shrink:0;margin-top:2px;"></i>
+          Real-time scheduling adapts to machine availability
+        </li>
+        <li class="ps-item">
+          <i data-lucide="bell-ring" class="ps-ico" style="width:18px;height:18px;color:#10B981;flex-shrink:0;margin-top:2px;"></i>
+          Smart alerts surface only what needs your attention
+        </li>
+        <li class="ps-item">
+          <i data-lucide="git-branch" class="ps-ico" style="width:18px;height:18px;color:#10B981;flex-shrink:0;margin-top:2px;"></i>
+          Full traceability from demand to shop floor
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="hiw-bg" id="how-it-works">
+  <div class="section section-center">
+    <span class="section-tag">How it works</span>
+    <h2 class="section-title">Three steps to zero planning chaos</h2>
+    <p class="section-sub">Factory Brain handles the entire production planning lifecycle automatically, from demand signal to machine schedule.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <span class="step-icon">
+          <i data-lucide="radio" style="width:36px;height:36px;color:#4F46E5;stroke-width:1.5;"></i>
+        </span>
+        <div class="step-title">Forecast Demand</div>
+        <p class="step-desc">Connect your sales data. Our AI analyzes patterns, seasonality, and trends to generate accurate demand forecasts — updated continuously.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <span class="step-icon">
+          <i data-lucide="clipboard-list" style="width:36px;height:36px;color:#4F46E5;stroke-width:1.5;"></i>
+        </span>
+        <div class="step-title">Plan Production</div>
+        <p class="step-desc">Factory Brain compares demand against stock levels, calculates what needs to be produced, and generates an optimized production plan.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <span class="step-icon">
+          <i data-lucide="factory" style="width:36px;height:36px;color:#4F46E5;stroke-width:1.5;"></i>
+        </span>
+        <div class="step-title">Schedule Machines</div>
+        <p class="step-desc">Automatically schedule jobs across your machines, respecting capacity constraints, priorities, and shifts. View conflicts at a glance.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT PREVIEW -->
+<div id="preview">
+  <div class="section section-center">
+    <span class="section-tag">Product</span>
+    <h2 class="section-title">A command center for your factory</h2>
+    <p class="section-sub">Everything your production team needs in one clean, fast interface.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;text-align:left;">
+      <div style="background:white;border:1px solid #E2E8F0;border-radius:16px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+        <div style="padding:16px 20px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:14px;font-weight:700;color:#0F172A;display:flex;align-items:center;gap:8px;">
+            <i data-lucide="bar-chart-2" style="width:16px;height:16px;color:#4F46E5;"></i> Production Summary
+          </span>
+          <span class="badge badge-primary" style="display:flex;align-items:center;gap:4px;">
+            <i data-lucide="radio" style="width:10px;height:10px;"></i> Live
+          </span>
+        </div>
+        <div style="padding:16px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+            <div style="background:#F8FAFC;border-radius:8px;padding:14px;border:1px solid #E2E8F0;">
+              <div style="font-size:11px;color:#94A3B8;margin-bottom:4px;">Demand Today</div>
+              <div style="font-size:24px;font-weight:800;color:#0F172A;">2,480</div>
+              <div style="font-size:11px;color:#10B981;font-weight:600;">↑ 12% vs yesterday</div>
+            </div>
+            <div style="background:#F8FAFC;border-radius:8px;padding:14px;border:1px solid #E2E8F0;">
+              <div style="font-size:11px;color:#94A3B8;margin-bottom:4px;">Planned Units</div>
+              <div style="font-size:24px;font-weight:800;color:#0F172A;">2,140</div>
+              <div style="font-size:11px;color:#10B981;font-weight:600;">↑ On schedule</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:6px;padding:6px 0;border-bottom:1px solid #F1F5F9;">
+            <span style="font-size:9px;color:#94A3B8;font-weight:700;text-transform:uppercase;">Product</span>
+            <span style="font-size:9px;color:#94A3B8;font-weight:700;text-transform:uppercase;">Demand</span>
+            <span style="font-size:9px;color:#94A3B8;font-weight:700;text-transform:uppercase;">Stock</span>
+            <span style="font-size:9px;color:#94A3B8;font-weight:700;text-transform:uppercase;">Status</span>
+          </div>
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:6px;padding:8px 0;border-bottom:1px solid #F9FAFB;font-size:11px;">
+            <span style="color:#0F172A;font-weight:600;">Widget A — Red</span><span>480</span><span>120</span><span style="color:#EF4444;font-weight:700;">Shortage</span>
+          </div>
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:6px;padding:8px 0;border-bottom:1px solid #F9FAFB;font-size:11px;">
+            <span style="color:#0F172A;font-weight:600;">Widget B — Blue</span><span>320</span><span>410</span><span style="color:#10B981;font-weight:700;">Balanced</span>
+          </div>
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:6px;padding:8px 0;font-size:11px;">
+            <span style="color:#0F172A;font-weight:600;">Widget C — Std</span><span>200</span><span>90</span><span style="color:#D97706;font-weight:700;">Low Stock</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:white;border:1px solid #E2E8F0;border-radius:16px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+        <div style="padding:16px 20px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:14px;font-weight:700;color:#0F172A;display:flex;align-items:center;gap:8px;">
+            <i data-lucide="calendar-clock" style="width:16px;height:16px;color:#4F46E5;"></i> Machine Schedule
+          </span>
+          <span style="font-size:12px;color:#64748B;">Today · Shift A</span>
+        </div>
+        <div style="padding:16px;">
+          <div style="display:flex;gap:4px;margin-bottom:10px;padding-left:52px;">
+            <span style="flex:1;font-size:9px;color:#94A3B8;font-weight:500;">6am</span>
+            <span style="flex:1;font-size:9px;color:#94A3B8;font-weight:500;">10am</span>
+            <span style="flex:1;font-size:9px;color:#94A3B8;font-weight:500;">2pm</span>
+            <span style="flex:1;font-size:9px;color:#94A3B8;font-weight:500;">6pm</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:11px;color:#64748B;width:44px;font-weight:500;">M-01</span>
+            <div style="flex:1;height:24px;background:#F8FAFC;border-radius:6px;overflow:hidden;display:flex;">
+              <div style="width:65%;background:#4F46E5;display:flex;align-items:center;padding:0 8px;font-size:9px;font-weight:700;color:white;">Widget A</div>
+              <div style="width:35%;background:#F1F5F9;"></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:11px;color:#64748B;width:44px;font-weight:500;">M-02</span>
+            <div style="flex:1;height:24px;background:#F8FAFC;border-radius:6px;overflow:hidden;display:flex;">
+              <div style="width:20%;background:#F1F5F9;"></div>
+              <div style="width:55%;background:#0D9488;display:flex;align-items:center;padding:0 8px;font-size:9px;font-weight:700;color:white;">Widget B</div>
+              <div style="width:25%;background:#F1F5F9;"></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:11px;color:#64748B;width:44px;font-weight:500;">M-03</span>
+            <div style="flex:1;height:24px;background:#F8FAFC;border-radius:6px;overflow:hidden;display:flex;">
+              <div style="width:80%;background:#7C3AED;display:flex;align-items:center;padding:0 8px;font-size:9px;font-weight:700;color:white;">Widget C · Priority</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:11px;color:#64748B;width:44px;font-weight:500;">M-04</span>
+            <div style="flex:1;height:24px;background:#F8FAFC;border-radius:6px;overflow:hidden;display:flex;">
+              <div style="width:40%;background:#D97706;display:flex;align-items:center;padding:0 8px;font-size:9px;font-weight:700;color:white;">Widget D</div>
+              <div style="width:60%;background:#F1F5F9;"></div>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding:10px 12px;background:#FEF2F2;border-radius:8px;border:1px solid rgba(239,68,68,0.2);display:flex;align-items:center;gap:8px;">
+            <i data-lucide="circle-alert" style="width:14px;height:14px;color:#EF4444;flex-shrink:0;"></i>
+            <span style="font-size:12px;color:#EF4444;font-weight:600;">M-01 bottleneck — Widget A demand exceeds capacity by 18%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="feat-bg" id="features">
+  <div class="section section-center">
+    <span class="section-tag">Features</span>
+    <h2 class="section-title">Everything you need to run efficiently</h2>
+    <p class="section-sub">Built for production managers who need clarity, speed, and control.</p>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon"><i data-lucide="refresh-cw" style="width:22px;height:22px;color:#4F46E5;stroke-width:2;"></i></div>
+        <div class="feat-title">Auto-sync to plans</div>
+        <p class="feat-desc">Demand data syncs automatically and updates production plans without manual recalculation.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i data-lucide="clock" style="width:22px;height:22px;color:#4F46E5;stroke-width:2;"></i></div>
+        <div class="feat-title">Save time</div>
+        <p class="feat-desc">Eliminate 4–6 hours of daily manual planning. Get actionable plans in under 60 seconds.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i data-lucide="bar-chart-2" style="width:22px;height:22px;color:#4F46E5;stroke-width:2;"></i></div>
+        <div class="feat-title">Intuitive charts</div>
+        <p class="feat-desc">Visual production summaries make it easy to spot shortage, excess, and scheduling conflicts.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i data-lucide="bell-ring" style="width:22px;height:22px;color:#4F46E5;stroke-width:2;"></i></div>
+        <div class="feat-title">Smart alerts</div>
+        <p class="feat-desc">Prioritized alerts for low inventory, demand spikes, and machine conflicts — zero noise.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i data-lucide="git-branch" style="width:22px;height:22px;color:#4F46E5;stroke-width:2;"></i></div>
+        <div class="feat-title">Full traceability</div>
+        <p class="feat-desc">Trace every production decision from demand input to machine output in one click.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i data-lucide="calendar-clock" style="width:22px;height:22px;color:#4F46E5;stroke-width:2;"></i></div>
+        <div class="feat-title">Machine scheduling</div>
+        <p class="feat-desc">Drag-and-drop timeline scheduler with capacity constraints and shift management.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i data-lucide="package" style="width:22px;height:22px;color:#4F46E5;stroke-width:2;"></i></div>
+        <div class="feat-title">Inventory health</div>
+        <p class="feat-desc">Real-time variant-level inventory monitoring with traffic-light status indicators.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i data-lucide="bot" style="width:22px;height:22px;color:#4F46E5;stroke-width:2;"></i></div>
+        <div class="feat-title">Scenario planning</div>
+        <p class="feat-desc">Model "what-if" demand scenarios to prepare for seasonal peaks without over-committing.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <div style="position:relative;z-index:1;">
+    <h2>Let your production plan itself.</h2>
+    <p>Give thousands of factories an edge by automating their weekly planning and reducing costly floor-level surprises.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="/auth" class="btn btn-white btn-xl" style="display:flex;align-items:center;gap:8px;">
+        Start Free — No credit card <i data-lucide="arrow-right" style="width:17px;height:17px;color:#4F46E5;"></i>
+      </a>
+      <a href="/login" class="btn btn-outline-white btn-xl" style="display:flex;align-items:center;gap:8px;">
+        <i data-lucide="log-in" style="width:17px;height:17px;"></i> Already have an account
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="brand-icon">
+        <i data-lucide="cpu" style="width:16px;height:16px;stroke:white;stroke-width:2;"></i>
+      </div>
+      Factory Brain
+    </div>
+    <div class="footer-links">
+      <a href="#">Product</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+    <p class="footer-copy">© 2026 Factory Brain. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
