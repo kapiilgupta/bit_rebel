@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="en"><head><%- include('partials/head') %><link rel="stylesheet" href="/css/dashboard.css" /></head>
+<body>
+<div class="app-layout">
+<%- include('partials/sidebar') %>
+<div class="main-content">
+
+  <div class="topbar">
+    <div class="topbar-left"><div><div class="topbar-title">Machine Scheduling</div><div class="topbar-date" id="todayDate"></div></div></div>
+    <div class="topbar-right">
+      <input type="date" id="sched-date" class="form-input" style="max-width:180px;font-size:13px;" />
+      <button class="btn btn-secondary" onclick="loadSchedule()"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i></button>
+    </div>
+  </div>
+
+  <div class="dash-content">
+    <div class="page-header">
+      <div class="page-header-left"><h1>Machine Schedule</h1><p>Gantt-style daily production timeline</p></div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary" onclick="loadSchedule()"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Refresh</button>
+        <button class="btn btn-primary" id="gen-sched-btn" onclick="generateSchedule()">
+          <i data-lucide="zap" style="width:14px;height:14px;"></i> Generate Schedule
+        </button>
+      </div>
+    </div>
+
+    <!-- Schedule Gantt Card -->
+    <div class="sec-card" style="margin-bottom:20px;">
+      <div class="sec-card-header">
+        <div>
+          <div class="sec-card-title">Today's Schedule</div>
+          <div class="sec-card-sub">6:00am – 6:00pm shift window</div>
+        </div>
+        <span id="sched-status-badge" class="badge badge-primary" style="display:none;">Live</span>
+      </div>
+      <div class="sec-card-body">
+        <!-- Time header -->
+        <div class="machine-sched">
+          <div class="sched-time-header">
+            <div style="width:64px;flex-shrink:0;"></div>
+            <div class="sched-time-label">6am</div>
+            <div class="sched-time-label">9am</div>
+            <div class="sched-time-label">12pm</div>
+            <div class="sched-time-label">3pm</div>
+            <div class="sched-time-label">6pm</div>
+          </div>
+          <div id="sched-rows">
+            <div style="text-align:center;padding:40px;color:#94A3B8;">
+              <i data-lucide="calendar-clock" style="width:28px;height:28px;margin-bottom:8px;color:#C7D2FE;"></i>
+              <div style="font-size:14px;font-weight:600;color:#475569;margin-bottom:6px;">No schedule yet</div>
+              <div style="font-size:12px;">Click "Generate Schedule" to auto-assign pending orders to machines.</div>
+            </div>
+          </div>
+        </div>
+        <!-- Legend -->
+        <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;align-items:center;">
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#64748B;"><span style="width:12px;height:12px;background:#4F46E5;border-radius:3px;display:inline-block;"></span> Scheduled</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#64748B;"><span style="width:12px;height:12px;background:#F1F5F9;border-radius:3px;display:inline-block;border:1px solid #E2E8F0;"></span> Idle</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slots Table -->
+    <div class="table-card">
+      <div class="table-card-header">
+        <div><div class="table-card-title">Schedule Slots</div><div class="table-card-sub">Detailed time allocation</div></div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="data-table" id="sched-table">
+          <thead><tr>
+            <th>Machine</th><th>Order #</th><th>Product</th><th>Quantity</th><th>Start</th><th>Duration</th>
+          </tr></thead>
+          <tbody id="sched-tbody">
+            <tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:30px;">No slots for this date.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="toast-container"></div>
+<script src="/js/pages.js"></script>
+<script>
+  lucide.createIcons();
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('sched-date').value = today;
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('sched-date').addEventListener('change', loadSchedule);
+  loadSchedule();
+</script>
+</body></html>
