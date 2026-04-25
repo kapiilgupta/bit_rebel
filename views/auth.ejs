@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/auth.css" />
+</head>
+<body>
+<div class="auth-page">
+  <a href="/" class="auth-back-link">
+    <i data-lucide="arrow-left" style="width:14px;height:14px;"></i> Back to home
+  </a>
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="auth-logo-icon">
+        <i data-lucide="cpu" style="width:22px;height:22px;stroke:white;stroke-width:2;"></i>
+      </div>
+      <span class="auth-logo-name">Factory Brain</span>
+    </div>
+    <h1 class="auth-title">Welcome</h1>
+    <p class="auth-sub">Choose how you'd like to continue</p>
+    <div class="auth-choices">
+      <a href="/signup" style="text-decoration:none;">
+        <button class="auth-choice-btn primary-choice" id="btn-create-account">
+          <div class="acb-ico">
+            <i data-lucide="sparkles" style="width:22px;height:22px;stroke-width:2;"></i>
+          </div>
+          <div class="acb-text">
+            <div class="acb-title">Create an account</div>
+            <div class="acb-sub">Start automating your production planning</div>
+          </div>
+          <i data-lucide="chevron-right" class="acb-arrow" style="width:18px;height:18px;"></i>
+        </button>
+      </a>
+      <div class="auth-divider">
+        <div class="auth-divider-line"></div>
+        <span class="auth-divider-text">or</span>
+        <div class="auth-divider-line"></div>
+      </div>
+      <a href="/login" style="text-decoration:none;">
+        <button class="auth-choice-btn" id="btn-login">
+          <div class="acb-ico" style="background:#F1F5F9;color:#64748B;">
+            <i data-lucide="log-in" style="width:22px;height:22px;stroke-width:2;"></i>
+          </div>
+          <div class="acb-text">
+            <div class="acb-title">Log in to your account</div>
+            <div class="acb-sub">Continue where you left off</div>
+          </div>
+          <i data-lucide="chevron-right" class="acb-arrow" style="width:18px;height:18px;"></i>
+        </button>
+      </a>
+    </div>
+    <p style="text-align:center;font-size:12px;color:#94A3B8;margin-top:28px;">
+      By continuing, you agree to our <a href="#" style="color:#4F46E5;">Terms</a> and <a href="#" style="color:#4F46E5;">Privacy Policy</a>.
+    </p>
+  </div>
+</div>
+<script src="/js/auth.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
